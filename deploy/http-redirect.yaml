@@ -1,0 +1,18 @@
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: redirect
+  namespace: ai
+spec:
+  # Attach the HTTPRoute to the `http` listener in the `external-http`
+  # Gateway.
+  parentRefs:
+  - namespace: ai
+    name: ai-gateway
+    sectionName: http
+  rules:
+  # Respond to the request with an HTTPS redirection.
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https

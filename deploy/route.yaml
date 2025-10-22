@@ -1,0 +1,17 @@
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: flowise-route
+  namespace: ai
+spec:
+  # Attach the HTTPRoute to the `internal-http` Gateway.
+  parentRefs:
+  - kind: Gateway
+    name: ai-gateway
+    sectionName: https
+  hostnames:
+  - "flowise.rev79.app"
+  rules:
+  - backendRefs:
+    - name: flowise
+      port: 80

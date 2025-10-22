@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ai-ingress
+  namespace: ai
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: ai-gateway
+    networking.gke.io/managed-certificates: ai-cert
+    kubernetes.io/ingress.class: "gce"
+spec:
+ rules:
+  - host: flowise.rev79.app
+    http:
+      paths:
+      - path: /
+        backend:
+          service:
+            name: flowise
+            port:
+              name: http
+      - path: /discounted-products
+        backend:
+          service:
+            name: my-discounted-products
+            port:
+              number: 80

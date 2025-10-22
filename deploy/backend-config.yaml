@@ -1,0 +1,21 @@
+apiVersion: networking.gke.io/v1
+kind: GCPBackendPolicy
+metadata:
+  name: flowise-backend-policy
+  namespace: ai
+spec:
+  default:
+    # Backend service timeout, in seconds, for the load balancer. The default
+    # value is 30.
+    timeoutSec: 300
+    # IAP OAuth2 settings. For more information about these fields,
+    # see https://cloud.google.com/iap/docs/reference/rest/v1/IapSettings#oauth2.
+    iap:
+      enabled: true
+      oauth2ClientSecret:
+        name: ai-iap
+      clientID: 983096558283-vksrdni690t4ihalei7m6cas5f43gsrt.apps.googleusercontent.com
+  targetRef:
+    group: ""
+    kind: Service
+    name: flowise

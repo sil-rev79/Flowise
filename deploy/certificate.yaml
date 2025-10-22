@@ -1,0 +1,10 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  namespace: ai
+  name: ai-cert
+spec:
+  domains:
+    - chat.rev79.app
+    - flowise.rev79.app
+    - mcp.rev79.app
