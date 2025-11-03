@@ -1,17 +1,24 @@
 kind: HTTPRoute
 apiVersion: gateway.networking.k8s.io/v1
 metadata:
-  name: flowise-route
-  namespace: ai
+    name: flowise-route
+    namespace: ai
 spec:
-  # Attach the HTTPRoute to the `internal-http` Gateway.
-  parentRefs:
-  - kind: Gateway
-    name: ai-gateway
-    sectionName: https
-  hostnames:
-  - "flowise.rev79.app"
-  rules:
-  - backendRefs:
-    - name: flowise
-      port: 80
+    # Attach the HTTPRoute to the `internal-http` Gateway.
+    parentRefs:
+        - kind: Gateway
+          name: ai-gateway
+          sectionName: https
+    hostnames:
+        - 'flowise.rev79.app'
+    rules:
+        - backendRefs:
+              - name: flowise
+                port: 80
+          filters:
+              - type: ResponseHeaderModifier
+                responseHeaderModifier:
+                    set: # use SET because ADD was giving us true,true.  ¯\(ツ)/¯
+                        # So we can pass cookie to get through IAP
+                        - name: Access-Control-Allow-Credentials
+                          value: 'true'
